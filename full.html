@@ -761,16 +761,17 @@ function openTab(evt, tabName) {
 }
 
 /* ---------- Google Sheets Backend via GET (بدون CORS) ---------- */
+
 async function saveToSheet(tab, field, value) {
   try {
     const baseUrl = "https://script.google.com/macros/s/AKfycbwUTkcbP0fdXsnt5jkyle0MS-EMvh5FjGOw7Ir6dfkxaOM2suaVxRxwz0_CpZPeCSrHRQ/exec";
     const url = `${baseUrl}?tab=${encodeURIComponent(tab)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}`;
-
-    await fetch(url, { method: "GET" });
+    await fetch(url);
   } catch (e) {
     console.log("Save error:", e);
   }
 }
+
 /* ---------- Google Sheets Backend (FINAL) ---------- */
 
 
