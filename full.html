@@ -893,6 +893,20 @@ function addLink() {
 
   linkInput.value = "";
 }
+  fetch(GOOGLE_SCRIPT_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    morning: true,
+    focus45: false,
+    evening: true,
+    energy: 7,
+    focus: 8,
+    motivation: 9,
+    notes: "test"
+  })
+});
+
 </script>
 
 
