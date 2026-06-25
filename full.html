@@ -1,626 +1,356 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>پلنر هوشمند غزاله – ۱۴۰۵ / ۲۰۲۶</title>
-
-  <!-- فونت وزیر -->
-  <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.2/Vazirmatn-font-face.css" rel="stylesheet">
+  <title>Ghazaleh Daily Planner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
+    :root {
+      --pink: #ff7aa2;
+      --blue: #6c8cff;
+      --lavender: #f3f1ff;
+      --soft-bg: #f5f7ff;
+      --card-bg: #ffffff;
+      --radius: 14px;
+      --shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
 
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--soft-bg);
+      margin: 0;
+      padding: 12px;
+      color: #222;
+      line-height: 1.8;
+    }
 
-      /* ---------------- MOBILE FIRST ---------------- */
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
 
-  :root {
-    --pink: #ff7aa2;
-    --blue: #6c8cff;
-    --lavender: #f3f1ff;
-    --soft-bg: #f5f7ff;
-    --card-bg: #ffffff;
-    --radius: 14px;
-    --shadow: 0 4px 14px rgba(0,0,0,0.06);
-  }
+    .tab-buttons {
+      display: flex;
+      overflow-x: auto;
+      gap: 8px;
+      padding-bottom: 10px;
+    }
+    .tab-buttons::-webkit-scrollbar { display: none; }
 
-  body {
-    font-family: "Vazirmatn", sans-serif;
-    background: var(--soft-bg);
-    margin: 0;
-    padding: 12px;
-    color: #222;
-    line-height: 1.8;
-  }
+    .tab-buttons button {
+      white-space: nowrap;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--lavender);
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .tab-buttons button.active {
+      background: var(--blue);
+      color: #fff;
+    }
 
-  /* ---------- Tabs ---------- */
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-top: 10px;
+    }
+    .tab-content.active {
+      display: block;
+    }
 
-  .tab-buttons {
-    display: flex;
-    overflow-x: auto;
-    gap: 8px;
-    padding-bottom: 10px;
-    scrollbar-width: none;
-  }
-  .tab-buttons::-webkit-scrollbar { display: none; }
+    .card {
+      background: #fff;
+      padding: 16px;
+      border-radius: var(--radius);
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
 
-  .tab-buttons button {
-    white-space: nowrap;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    border: none;
-    background: var(--lavender);
-    font-size: 0.85rem;
-  }
+    label {
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 4px;
+    }
 
-  .tab-buttons button.active {
-    background: var(--blue);
-    color: #fff;
-  }
+    input[type="text"],
+    input[type="file"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      background: var(--lavender);
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
 
-  /* ---------- Content ---------- */
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
 
-  .tab-content {
-    display: none;
-    background: var(--card-bg);
-    padding: 16px;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-  }
-
-  .tab-content.active {
-    display: block;
-  }
-
-  /* ---------- Cards ---------- */
-
-  .card {
-    background: #fff;
-    padding: 16px;
-    border-radius: var(--radius);
-    margin-bottom: 16px;
-    box-shadow: var(--shadow);
-  }
-
-  /* ---------- Inputs ---------- */
-
-  input[type="text"],
-  input[type="file"],
-  textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background: var(--lavender);
-    font-size: 0.9rem;
-    margin-bottom: 12px;
-  }
-
-  /* ---------- Grid (Mobile First) ---------- */
-
-  .grid-2,
-  .grid-3 {
-    display: block;
-  }
-
-  @media (min-width: 700px) {
-    .grid-2 {
+    .gallery {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+    @media (min-width: 600px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
-  }
 
-  /* ---------- Gallery ---------- */
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-
-  @media (min-width: 600px) {
-    .gallery-grid {
-      grid-template-columns: repeat(3, 1fr);
+    .gallery-item {
+      position: relative;
     }
-  }
-
-  .gallery-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-
-  /* ---------- File List ---------- */
-
-  .file-item {
-    background: var(--lavender);
-    padding: 12px;
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    font-size: 0.85rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
+    .gallery-item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+    .delete-btn {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      border: none;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      cursor: pointer;
+    }
   </style>
 </head>
-
 <body>
 
-<div class="tabs">
+  <h1>Ghazaleh Planner</h1>
 
   <div class="tab-buttons">
-    <button class="active" onclick="openTab(event, 'daily')">📅 پلنر روزانه</button>
-    <button onclick="openTab(event, 'tracker')">📊 ترکر</button>
-    <button onclick="openTab(event, 'goals')">🎯 هدف‌گذاری</button>
-    <button onclick="openTab(event, 'notes')">📝 نوت‌ها</button>
-    <button onclick="openTab(event, 'calendar')">📆 تقویم‌ها</button>
-    <button onclick="openTab(event, 'routines')">🌀 روتین‌ها</button>
-    <button onclick="openTab(event, 'wishlist')">🖼️ گالری آرزوها</button>
-    <button onclick="openTab(event, 'files')">📁 فایل‌ها و لینک‌ها</button>
+    <button class="active" onclick="openTab(event, 'daily')">Daily</button>
+    <button onclick="openTab(event, 'weekly')">Weekly</button>
+    <button onclick="openTab(event, 'wishlist')">Wishlist</button>
   </div>
 
-  <!-- TAB 1: DAILY -->
+  <!-- DAILY TAB -->
   <div id="daily" class="tab-content active">
-    <h2>📅 پلنر روزانه</h2>
-
-    <div class="grid-2">
-      <div>
-        <label>تاریخ</label>
-        <input type="text" placeholder="۱۴۰۵/۰۱/۰۱" oninput="saveToSheet('daily','date',this.value)" />
-      </div>
-      <div>
-        <label>تمرکز اصلی امروز</label>
-        <input type="text" placeholder="مثلاً: کار عمیق / ریکاوری" oninput="saveToSheet('daily','focus',this.value)" />
-      </div>
-    </div>
-
     <div class="card">
-      <h3>🕰️ نمای کلی روز</h3>
-      <div class="grid-2">
-        <div>
-          <label>صبح</label>
-          <textarea placeholder="برنامه صبح..." oninput="saveToSheet('daily','morning',this.value)"></textarea>
-        </div>
-        <div>
-          <label>ظهر و عصر</label>
-          <textarea placeholder="برنامه ظهر و عصر..." oninput="saveToSheet('daily','noon',this.value)"></textarea>
-        </div>
-      </div>
-      <label>شب</label>
-      <textarea placeholder="برنامه شب..." oninput="saveToSheet('daily','night',this.value)"></textarea>
+      <h2>Daily Focus</h2>
+      <label for="daily_focus">Today's main focus</label>
+      <input id="daily_focus" name="daily_focus" type="text" />
+
+      <label for="daily_morning">Morning routine</label>
+      <textarea id="daily_morning" name="daily_morning"></textarea>
+
+      <label for="daily_evening">Evening reflection</label>
+      <textarea id="daily_evening" name="daily_evening"></textarea>
+
+      <label>
+        <input id="daily_done" name="daily_done" type="checkbox" />
+        Day completed
+      </label>
     </div>
   </div>
 
-  <!-- TAB 2: TRACKER -->
-  <div id="tracker" class="tab-content">
-    <h2>📊 ترکر غزاله</h2>
-
+  <!-- WEEKLY TAB -->
+  <div id="weekly" class="tab-content">
     <div class="card">
-      <label>بازه‌ی پیگیری</label>
-      <input type="text" placeholder="مثلاً: فروردین ۱۴۰۵" oninput="saveToSheet('tracker','range',this.value)" />
-    </div>
+      <h2>Weekly Goals</h2>
+      <label for="weekly_goal">My goal for this week</label>
+      <textarea id="weekly_goal" name="weekly_goal"></textarea>
 
-    <div class="grid-2">
-      <div class="card">
-        <h3>📌 فهرست عادت‌ها</h3>
-        <textarea placeholder="مدیتیشن، باشگاه، مطالعه، پروژه..." oninput="saveToSheet('tracker','habits',this.value)"></textarea>
-      </div>
-      <div class="card">
-        <h3>🧠 یادداشت‌های پیگیری</h3>
-        <textarea placeholder="الگوها، حس‌ها، تغییرات..." oninput="saveToSheet('tracker','notes',this.value)"></textarea>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>📅 شبکه‌ی ماهانه</h3>
-      <textarea placeholder="سطر = عادت، ستون = روزها..." oninput="saveToSheet('tracker','matrix',this.value)"></textarea>
+      <label for="weekly_tasks">Key tasks</label>
+      <textarea id="weekly_tasks" name="weekly_tasks"></textarea>
     </div>
   </div>
 
-  <!-- TAB 3: GOALS -->
-  <div id="goals" class="tab-content">
-    <h2>🎯 هدف‌گذاری</h2>
-
-    <div class="card">
-      <h3>هدف شماره یک</h3>
-      <div class="grid-2">
-        <div>
-          <label>هدف چیست؟</label>
-          <textarea oninput="saveToSheet('goals','goal1',this.value)"></textarea>
-          <label>چرا مهم است؟</label>
-          <textarea oninput="saveToSheet('goals','goal1_reason',this.value)"></textarea>
-        </div>
-        <div>
-          <label>گام‌های عملی</label>
-          <textarea oninput="saveToSheet('goals','goal1_steps',this.value)"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>هدف شماره دو</h3>
-      <div class="grid-2">
-        <div>
-          <label>هدف چیست؟</label>
-          <textarea oninput="saveToSheet('goals','goal2',this.value)"></textarea>
-          <label>چرا مهم است؟</label>
-          <textarea oninput="saveToSheet('goals','goal2_reason',this.value)"></textarea>
-        </div>
-        <div>
-          <label>گام‌های عملی</label>
-          <textarea oninput="saveToSheet('goals','goal2_steps',this.value)"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>هدف شماره سه</h3>
-      <div class="grid-2">
-        <div>
-          <label>هدف چیست؟</label>
-          <textarea oninput="saveToSheet('goals','goal3',this.value)"></textarea>
-          <label>چرا مهم است؟</label>
-          <textarea oninput="saveToSheet('goals','goal3_reason',this.value)"></textarea>
-        </div>
-        <div>
-          <label>گام‌های عملی</label>
-          <textarea oninput="saveToSheet('goals','goal3_steps',this.value)"></textarea>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 4: NOTES -->
-  <div id="notes" class="tab-content">
-    <h2>📝 نوت‌ها و متن آزاد</h2>
-
-    <div class="card">
-      <h3>نوشتن آزاد</h3>
-      <textarea placeholder="ایده‌ها، احساسات، برنامه‌ها..." oninput="saveToSheet('notes','freewriting',this.value)"></textarea>
-    </div>
-
-    <div class="card">
-      <h3>اطلاعات مهم</h3>
-      <textarea placeholder="لینک‌ها، مخاطبین، یادآوری‌ها..." oninput="saveToSheet('notes','important',this.value)"></textarea>
-    </div>
-
-    <div class="card">
-      <h3>مرور ماهانه</h3>
-      <textarea placeholder="چه چیزهایی خوب بود؟ چه چیزهایی باید تغییر کند؟" oninput="saveToSheet('notes','monthly_review',this.value)"></textarea>
-    </div>
-  </div>
-
-  <!-- TAB 5: CALENDAR -->
-  <div id="calendar" class="tab-content">
-    <h2>📆 تقویم‌ها – ۲۰۲۶ و ۱۴۰۵</h2>
-
-    <div class="card">
-      <h3>تقویم میلادی ۲۰۲۶</h3>
-      <div class="calendar-grid">
-        <div class="calendar-month"><div class="calendar-month-title">ژانویه</div><textarea oninput="saveToSheet('calendar','2026_jan',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">فوریه</div><textarea oninput="saveToSheet('calendar','2026_feb',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">مارس</div><textarea oninput="saveToSheet('calendar','2026_mar',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">آوریل</div><textarea oninput="saveToSheet('calendar','2026_apr',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">می</div><textarea oninput="saveToSheet('calendar','2026_may',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">ژوئن</div><textarea oninput="saveToSheet('calendar','2026_jun',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">ژوئیه</div><textarea oninput="saveToSheet('calendar','2026_jul',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">اوت</div><textarea oninput="saveToSheet('calendar','2026_aug',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">سپتامبر</div><textarea oninput="saveToSheet('calendar','2026_sep',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">اکتبر</div><textarea oninput="saveToSheet('calendar','2026_oct',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">نوامبر</div><textarea oninput="saveToSheet('calendar','2026_nov',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">دسامبر</div><textarea oninput="saveToSheet('calendar','2026_dec',this.value)"></textarea></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>تقویم شمسی ۱۴۰۵</h3>
-      <div class="calendar-grid">
-        <div class="calendar-month"><div class="calendar-month-title">فروردین</div><textarea oninput="saveToSheet('calendar','1405_far',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">اردیبهشت</div><textarea oninput="saveToSheet('calendar','1405_ord',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">خرداد</div><textarea oninput="saveToSheet('calendar','1405_kho',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">تیر</div><textarea oninput="saveToSheet('calendar','1405_tir',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">مرداد</div><textarea oninput="saveToSheet('calendar','1405_mor',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">شهریور</div><textarea oninput="saveToSheet('calendar','1405_shah',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">مهر</div><textarea oninput="saveToSheet('calendar','1405_mehr',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">آبان</div><textarea oninput="saveToSheet('calendar','1405_aban',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">آذر</div><textarea oninput="saveToSheet('calendar','1405_azar',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">دی</div><textarea oninput="saveToSheet('calendar','1405_dey',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">بهمن</div><textarea oninput="saveToSheet('calendar','1405_bah',this.value)"></textarea></div>
-        <div class="calendar-month"><div class="calendar-month-title">اسفند</div><textarea oninput="saveToSheet('calendar','1405_esf',this.value)"></textarea></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB 6: ROUTINES -->
-  <div id="routines" class="tab-content">
-    <h2>🌀 روتین‌های غزاله</h2>
-
-    <div class="card">
-      <h3>🌅 روتین روزانه</h3>
-      <details open>
-        <summary>🌞 روتین صبح</summary>
-        <div class="checklist-item"><input type="checkbox" /> آب + نور</div>
-        <div class="checklist-item"><input type="checkbox" /> مدیتیشن</div>
-        <div class="checklist-item"><input type="checkbox" /> ورزش</div>
-        <div class="checklist-item"><input type="checkbox" /> مطالعه</div>
-        <textarea placeholder="آیتم‌های شخصی صبح..." oninput="saveToSheet('routines','morning_routine',this.value)"></textarea>
-      </details>
-
-      <details>
-        <summary>🌙 روتین شب</summary>
-        <div class="checklist-item"><input type="checkbox" /> خاموشی دیجیتال</div>
-        <div class="checklist-item"><input type="checkbox" /> مرتب‌سازی</div>
-        <div class="checklist-item"><input type="checkbox" /> ژورنال</div>
-        <div class="checklist-item"><input type="checkbox" /> مطالعه</div>
-        <textarea placeholder="آیتم‌های شخصی شب..." oninput="saveToSheet('routines','night_routine',this.value)"></textarea>
-      </details>
-    </div>
-
-    <div class="card">
-      <h3>📅 روتین هفتگی</h3>
-      <details open>
-        <summary>🧹 پاکسازی محیط</summary>
-        <div class="checklist-item"><input type="checkbox" /> مرتب‌سازی اتاق</div>
-        <div class="checklist-item"><input type="checkbox" /> مرتب‌سازی میز کار</div>
-        <div class="checklist-item"><input type="checkbox" /> پاکسازی دیجیتال</div>
-        <textarea placeholder="آیتم‌های شخصی هفتگی..." oninput="saveToSheet('routines','weekly_clean',this.value)"></textarea>
-      </details>
-
-      <details>
-        <summary>🧘‍♀️ ریکاوری هفتگی</summary>
-        <div class="checklist-item"><input type="checkbox" /> حمام طولانی</div>
-        <div class="checklist-item"><input type="checkbox" /> ماسک صورت / مراقبت پوست</div>
-        <div class="checklist-item"><input type="checkbox" /> مدیتیشن ۱۰ دقیقه‌ای</div>
-        <textarea placeholder="آیتم‌های ریکاوری هفتگی..." oninput="saveToSheet('routines','weekly_recovery',this.value)"></textarea>
-      </details>
-
-      <details>
-        <summary>📝 برنامه‌ریزی هفته</summary>
-        <div class="checklist-item"><input type="checkbox" /> مرور هفته گذشته</div>
-        <div class="checklist-item"><input type="checkbox" /> تعیین ۳ هدف اصلی هفته</div>
-        <div class="checklist-item"><input type="checkbox" /> برنامه‌ریزی کارها</div>
-        <textarea placeholder="یادداشت‌های برنامه‌ریزی..." oninput="saveToSheet('routines','weekly_planning',this.value)"></textarea>
-      </details>
-    </div>
-
-    <div class="card">
-      <h3>📆 روتین ماهانه</h3>
-      <details open>
-        <summary>📊 مرور ماه</summary>
-        <div class="checklist-item"><input type="checkbox" /> بررسی پیشرفت اهداف</div>
-        <div class="checklist-item"><input type="checkbox" /> مرور عادت‌ها</div>
-        <div class="checklist-item"><input type="checkbox" /> تحلیل انرژی و احساسات</div>
-        <textarea placeholder="یادداشت‌های مرور ماه..." oninput="saveToSheet('routines','monthly_review',this.value)"></textarea>
-      </details>
-
-      <details>
-        <summary>🎯 تعیین اهداف ماه جدید</summary>
-        <div class="checklist-item"><input type="checkbox" /> تعیین ۳ هدف اصلی</div>
-        <div class="checklist-item"><input type="checkbox" /> تعیین عادت‌های ماه</div>
-        <div class="checklist-item"><input type="checkbox" /> برنامه‌ریزی پروژه‌ها</div>
-        <textarea placeholder="اهداف ماه جدید..." oninput="saveToSheet('routines','monthly_goals',this.value)"></textarea>
-      </details>
-    </div>
-
-    <div class="card">
-      <h3>💗 روتین ریکاوری (برای روزهای سخت)</h3>
-      <details open>
-        <summary>🫶 ریکاوری سریع</summary>
-        <div class="checklist-item"><input type="checkbox" /> ۵ دقیقه تنفس</div>
-        <div class="checklist-item"><input type="checkbox" /> نوشیدن آب</div>
-        <div class="checklist-item"><input type="checkbox" /> ۱۰ دقیقه استراحت</div>
-        <textarea placeholder="آیتم‌های ریکاوری سریع..." oninput="saveToSheet('routines','quick_recovery',this.value)"></textarea>
-      </details>
-
-      <details>
-        <summary>🌿 ریکاوری عمیق</summary>
-        <div class="checklist-item"><input type="checkbox" /> حمام آرامش‌بخش</div>
-        <div class="checklist-item"><input type="checkbox" /> مدیتیشن ۱۵ دقیقه‌ای</div>
-        <div class="checklist-item"><input type="checkbox" /> پیاده‌روی آرام</div>
-        <textarea placeholder="آیتم‌های ریکاوری عمیق..." oninput="saveToSheet('routines','deep_recovery',this.value)"></textarea>
-      </details>
-    </div>
-  </div>
-
-  <!-- TAB 7: WISHLIST GALLERY -->
+  <!-- WISHLIST TAB -->
   <div id="wishlist" class="tab-content">
-    <h2>🖼️ گالری آرزوهای غزاله</h2>
-    <p style="margin-top:-10px; color:#666; font-size:0.85rem;">
-      عکس‌ها را آپلود کن، حذف کن، و گالری رویایی‌ات را بساز ✨
-    </p>
-
     <div class="card">
-      <label>آپلود عکس‌های آرزوها (می‌توانی چندتا انتخاب کنی)</label>
-      <input type="file" id="wishUpload" accept="image/*" multiple />
-      <div id="gallery" class="gallery-grid"></div>
+      <h2>Wishlist Photos</h2>
+      <label for="wishUpload">Upload wish photos</label>
+      <input id="wishUpload" type="file" accept="image/*" multiple />
+
+      <div id="gallery" class="gallery"></div>
     </div>
   </div>
 
-  <!-- TAB 8: FILES & LINKS -->
-  <div id="files" class="tab-content">
-    <h2>📁 فایل‌ها و لینک‌های من</h2>
-    <p style="margin-top:-10px; color:#666; font-size:0.85rem;">
-      هر فایلی از گوشی‌ات، هر لینکی از اینترنت — اینجا ذخیره کن ✨
-    </p>
+  <script>
+    /* ---------- Tabs ---------- */
+    function openTab(evt, tabName) {
+      const contents = document.querySelectorAll(".tab-content");
+      const buttons = document.querySelectorAll(".tab-buttons button");
 
-    <div class="card">
-      <h3>📤 آپلود فایل</h3>
-      <input type="file" id="fileUpload" multiple />
+      contents.forEach(c => c.classList.remove("active"));
+      buttons.forEach(b => b.classList.remove("active"));
 
-      <h3 style="margin-top:20px;">🔗 افزودن لینک</h3>
-      <input type="text" id="linkInput" placeholder="مثلاً لینک Google Drive یا Telegram" />
-      <button class="add-btn" onclick="addLink()">+ افزودن لینک</button>
-    </div>
+      document.getElementById(tabName).classList.add("active");
+      evt.target.classList.add("active");
+    }
 
-    <div class="card">
-      <h3>📚 فایل‌ها و لینک‌های ذخیره‌شده</h3>
-      <ul id="fileList" style="list-style:none; padding:0; margin:0;"></ul>
-    </div>
-  </div>
+    /* ---------- Google Sheets Backend via GET ---------- */
+    async function saveToSheet(tab, field, value) {
+      try {
+        const baseUrl = "https://script.google.com/macros/s/AKfycbwUTkcbP0fdXsnt5jkyle0MS-EMvh5FjGOw7Ir6dfkxaOM2suaVxRxwz0_CpZPeCSrHRQ/exec";
+        const url = `${baseUrl}?tab=${encodeURIComponent(tab)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}`;
+        await fetch(url, { method: "GET" });
+      } catch (e) {
+        console.log("Save error:", e);
+      }
+    }
 
-</div>
+    /* ---------- Auto-save for all inputs ---------- */
+    function setupAutoSave() {
+      // text / textarea / select
+      document.querySelectorAll("input[type=text], textarea, select").forEach(el => {
+        const tab = el.closest(".tab-content")?.id || "general";
+        const field = el.name || el.id || el.placeholder || "unknown";
 
-<script>
-function openTab(evt, tabName) {
-  const contents = document.querySelectorAll(".tab-content");
-  const buttons = document.querySelectorAll(".tab-buttons button");
+        el.addEventListener("input", () => {
+          saveToSheet(tab, field, el.value);
 
-  contents.forEach(c => c.classList.remove("active"));
-  buttons.forEach(b => b.classList.remove("active"));
-
-  document.getElementById(tabName).classList.add("active");
-  evt.target.classList.add("active");
-}
-
-/* ---------- Google Sheets Backend via GET (بدون CORS) ---------- */
-async function saveToSheet(tab, field, value) {
-  try {
-    const baseUrl = "https://script.google.com/macros/s/AKfycbwUTkcbP0fdXsnt5jkyle0MS-EMvh5FjGOw7Ir6dfkxaOM2suaVxRxwz0_CpZPeCSrHRQ/exec";
-    const url = `${baseUrl}?tab=${encodeURIComponent(tab)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}`;
-
-    await fetch(url, { method: "GET" });
-  } catch (e) {
-    console.log("Save error:", e);
-  }
-}
-/* ---------- Google Sheets Backend (FINAL) ---------- */
-
-
-/* ---------- Wishlist Gallery ---------- */
-/* ------------------ GitHub Upload Config ------------------ */
-
-const GITHUB_TOKEN = "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" ;  
-const GITHUB_REPO  = "ghazalehkeyvani/planner";
-const GITHUB_PATH  = "wishes"; // folder name
-
-/* ------------------ Upload File to GitHub ------------------ */
-
-async function uploadWishToGitHub(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = async function () {
-      const base64 = reader.result.split(",")[1];
-      const filePath = `${GITHUB_PATH}/${Date.now()}_${file.name}`;
-
-      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${GITHUB_TOKEN}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: "Add wish photo",
-          content: base64
-        })
+          if (tab === "daily" && el.id) {
+            const today = new Date().toISOString().split("T")[0];
+            localStorage.setItem(el.id, el.value + "||" + today);
+          }
+        });
       });
 
-      const result = await response.json();
+      // checkbox / radio
+      document.querySelectorAll("input[type=checkbox], input[type=radio]").forEach(el => {
+        const tab = el.closest(".tab-content")?.id || "general";
+        const field = el.name || el.id;
 
-      if (result?.content?.download_url) {
-        resolve(result.content.download_url);
-      } else {
-        reject("Upload failed");
-      }
-    };
+        el.addEventListener("change", () => {
+          const value = el.checked ? "true" : "false";
+          saveToSheet(tab, field, value);
 
-    reader.readAsDataURL(file);
-  });
-}
-
-/* ------------------ Wishlist Gallery Logic ------------------ */
-
-const uploadInput = document.getElementById("wishUpload");
-const gallery = document.getElementById("gallery");
-
-uploadInput.addEventListener("change", async function () {
-  const files = Array.from(this.files);
-
-  for (const file of files) {
-    try {
-      // Upload to GitHub
-      const url = await uploadWishToGitHub(file);
-
-      // Add to UI
-      const item = document.createElement("div");
-      item.className = "gallery-item";
-
-      item.innerHTML = `
-        <img src="${url}" alt="wish photo">
-        <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
-      `;
-
-      gallery.appendChild(item);
-
-      // Save to Google Sheet (GET backend)
-      saveToSheet("wishlist", "image_url", url);
-
-    } catch (err) {
-      console.log("Upload error:", err);
+          if (tab === "daily" && el.id) {
+            const today = new Date().toISOString().split("T")[0];
+            localStorage.setItem(el.id, value + "||" + today);
+          }
+        });
+      });
     }
-  }
 
-  this.value = "";
-});
+    /* ---------- Restore Daily for today, clear older ---------- */
+    function restoreTodayDaily() {
+      const today = new Date().toISOString().split("T")[0];
 
-/* ---------- Files & Links ---------- */
-const fileUpload = document.getElementById("fileUpload");
-const fileList = document.getElementById("fileList");
+      document.querySelectorAll("#daily input, #daily textarea, #daily select").forEach(el => {
+        if (!el.id) return;
 
-if (fileUpload) {
-  fileUpload.addEventListener("change", function () {
-    const files = Array.from(this.files);
+        const saved = localStorage.getItem(el.id);
+        if (!saved) {
+          if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = false;
+          } else {
+            el.value = "";
+          }
+          return;
+        }
 
-    files.forEach(file => {
-      const url = URL.createObjectURL(file);
+        const [value, date] = saved.split("||");
 
-      const li = document.createElement("li");
-      li.className = "file-item";
+        if (date === today) {
+          if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = (value === "true");
+          } else {
+            el.value = value;
+          }
+        } else {
+          if (el.type === "checkbox" || el.type === "radio") {
+            el.checked = false;
+          } else {
+            el.value = "";
+          }
+        }
+      });
+    }
 
-      li.innerHTML = `
-        <a href="${url}" download="${file.name}">${file.name}</a>
-        <button class="remove-file" onclick="this.parentElement.remove()">حذف</button>
-      `;
+    /* ---------- GitHub Upload for Wishlist Photos ---------- */
+    const GITHUB_TOKEN = "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";  // ← replace
+    const GITHUB_REPO  = "ghazalehkeyvani/planner";
+    const GITHUB_PATH  = "wishes";
 
-      fileList.appendChild(li);
+    async function uploadWishToGitHub(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-      // ذخیره نام فایل در شیت
-      saveToSheet("files", "uploaded_file", file.name);
+        reader.onload = async function () {
+          const base64 = reader.result.split(",")[1];
+          const filePath = `${GITHUB_PATH}/${Date.now()}_${file.name}`;
+
+          const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${GITHUB_TOKEN}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              message: "Add wish photo",
+              content: base64
+            })
+          });
+
+          const result = await response.json();
+
+          if (result?.content?.download_url) {
+            resolve(result.content.download_url);
+          } else {
+            reject("Upload failed");
+          }
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const uploadInput = document.getElementById("wishUpload");
+    const gallery = document.getElementById("gallery");
+
+    uploadInput.addEventListener("change", async function () {
+      const files = Array.from(this.files);
+
+      for (const file of files) {
+        try {
+          const url = await uploadWishToGitHub(file);
+
+          const item = document.createElement("div");
+          item.className = "gallery-item";
+
+          item.innerHTML = `
+            <img src="${url}" alt="wish photo">
+            <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
+          `;
+
+          gallery.appendChild(item);
+
+          // log in sheet
+          saveToSheet("wishlist", "image_url", url);
+
+        } catch (err) {
+          console.log("Upload error:", err);
+        }
+      }
+
+      this.value = "";
     });
 
-    this.value = "";
-  });
-}
-
-function addLink() {
-  const linkInput = document.getElementById("linkInput");
-  const link = linkInput.value.trim();
-  if (!link) return;
-
-  const li = document.createElement("li");
-  li.className = "file-item";
-
-  li.innerHTML = `
-    <a href="${link}" target="_blank">${link}</a>
-    <button class="remove-file" onclick="this.parentElement.remove()">حذف</button>
-  `;
-
-  fileList.appendChild(li);
-
-  // ذخیره لینک در شیت
-  saveToSheet("files", "link", link);
-
-  linkInput.value = "";
-}
-</script>
-
-
+    /* ---------- Init ---------- */
+    window.addEventListener("load", () => {
+      setupAutoSave();
+      restoreTodayDaily();
+    });
+  </script>
 </body>
 </html>
