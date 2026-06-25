@@ -806,41 +806,52 @@ if (uploadInput) {
   });
 }
 
+const staticImages = [
+  "wishes/img1.jpg",
+  "wishes/img2.jpg",
+  "wishes/img3.jpg",
+  "wishes/img4.jpg",
+  "wishes/img5.jpg",
+  "wishes/img6.jpg",
+  "wishes/img7.jpg",
+  "wishes/img8.jpg",
+  "wishes/img9.jpg",
+  "wishes/img10.jpg",
+  "wishes/img11.jpg",
+  "wishes/img12.jpg",
+  "wishes/img13.jpg",
+  "wishes/img14.jpg",
+  "wishes/img15.jpg",
+  "wishes/img16.jpg",
+  "wishes/img17.jpg",
+  "wishes/img18.jpg",
+  "wishes/img19.jpg",
+  "wishes/img20.jpg",
+  "wishes/img21.jpg",
+  "wishes/img22.jpg",
+  "wishes/img23.jpg",
+  "wishes/img24.jpg"
+];
 
-async function loadWishlistFromGitHub() {
-  const repo = "ghazalehkeyvani/planner";
-  const path = "wishes";
 
-  try {
-    const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-      headers: {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`
-      }
-    });
+function loadStaticWishlist() {
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
 
-    const files = await res.json();
+  staticImages.forEach(src => {
+    const item = document.createElement("div");
+    item.className = "gallery-item";
 
-    const gallery = document.getElementById("gallery");
-    gallery.innerHTML = "";
+    item.innerHTML = `
+      <img src="${src}" alt="">
+      <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
+    `;
 
-    files.forEach(file => {
-      if (file.download_url) {
-        const item = document.createElement("div");
-        item.className = "gallery-item";
-
-        item.innerHTML = `
-          <img src="${file.download_url}" alt="wish photo">
-          <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
-        `;
-
-        gallery.appendChild(item);
-      }
-    });
-
-  } catch (err) {
-    console.log("Error loading wishlist:", err);
-  }
+    gallery.appendChild(item);
+  });
 }
+
+window.addEventListener("load", loadStaticWishlist);
 
 
 
