@@ -8,281 +8,146 @@
   <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.2/Vazirmatn-font-face.css" rel="stylesheet">
 
   <style>
-    :root {
-      --pink: #ff7aa2;
-      --pink-dark: #ff5c8c;
-      --blue: #6c8cff;
-      --blue-dark: #5574ff;
-      --lavender: #f3f1ff;
-      --soft-bg: #f5f7ff;
-      --card-bg: #ffffff;
-      --text: #222;
-      --radius: 18px;
-      --shadow: 0 8px 25px rgba(0,0,0,0.06);
-      --transition: 0.25s ease;
-    }
 
-    body {
-      font-family: "Vazirmatn", sans-serif;
-      background: var(--soft-bg);
-      margin: 0;
-      padding: 20px;
-      color: var(--text);
-      line-height: 1.9;
-    }
 
-    .tabs {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+      /* ---------------- MOBILE FIRST ---------------- */
 
-    .tab-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
+  :root {
+    --pink: #ff7aa2;
+    --blue: #6c8cff;
+    --lavender: #f3f1ff;
+    --soft-bg: #f5f7ff;
+    --card-bg: #ffffff;
+    --radius: 14px;
+    --shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
 
-    .tab-buttons button {
-      padding: 12px 20px;
-      border-radius: var(--radius);
-      border: none;
-      cursor: pointer;
-      background: var(--lavender);
-      color: var(--text);
-      font-size: 0.95rem;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    }
+  body {
+    font-family: "Vazirmatn", sans-serif;
+    background: var(--soft-bg);
+    margin: 0;
+    padding: 12px;
+    color: #222;
+    line-height: 1.8;
+  }
 
-    .tab-buttons button.active {
-      background: var(--blue);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
+  /* ---------- Tabs ---------- */
 
-    .tab-buttons button:hover {
-      background: #e3e0ff;
-    }
+  .tab-buttons {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+  .tab-buttons::-webkit-scrollbar { display: none; }
 
-    .tab-content {
-      display: none;
-      background: var(--card-bg);
-      padding: 28px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 30px;
-      animation: fadeIn 0.4s ease;
-    }
+  .tab-buttons button {
+    white-space: nowrap;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: none;
+    background: var(--lavender);
+    font-size: 0.85rem;
+  }
 
-    .tab-content.active {
-      display: block;
-    }
+  .tab-buttons button.active {
+    background: var(--blue);
+    color: #fff;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+  /* ---------- Content ---------- */
 
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid #eee;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      transition: var(--transition);
-    }
+  .tab-content {
+    display: none;
+    background: var(--card-bg);
+    padding: 16px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
 
-    .card:hover {
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-    }
+  .tab-content.active {
+    display: block;
+  }
 
-    label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #555;
-      margin-bottom: 6px;
-      display: block;
-    }
+  /* ---------- Cards ---------- */
 
-    input[type="text"],
-    input[type="url"],
-    input[type="file"],
-    textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid #ddd;
-      font-size: 0.9rem;
-      background: var(--lavender);
-      margin-bottom: 14px;
-      box-sizing: border-box;
-      transition: var(--transition);
-    }
+  .card {
+    background: #fff;
+    padding: 16px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
 
-    input:focus,
-    textarea:focus {
-      border-color: var(--blue);
-      outline: none;
-      background: #fff;
-    }
+  /* ---------- Inputs ---------- */
 
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
+  input[type="text"],
+  input[type="file"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: var(--lavender);
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
 
+  /* ---------- Grid (Mobile First) ---------- */
+
+  .grid-2,
+  .grid-3 {
+    display: block;
+  }
+
+  @media (min-width: 700px) {
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
     }
-
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .checklist-item {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      align-items: center;
-    }
-
-    .checklist-item input[type="checkbox"] {
-      transform: scale(1.3);
-    }
-
-    .edit-btn,
-    .add-btn {
-      padding: 7px 12px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      transition: var(--transition);
-    }
-
-    .edit-btn {
-      background: var(--pink);
-      color: #fff;
-    }
-
-    .edit-btn:hover {
-      background: var(--pink-dark);
-    }
-
-    .add-btn {
-      background: var(--blue);
-      color: #fff;
-      margin-top: 10px;
-    }
-
-    .add-btn:hover {
-      background: var(--blue-dark);
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .calendar-month {
-      background: var(--lavender);
-      padding: 16px;
-      border-radius: 14px;
-    }
-
-    .calendar-month-title {
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-top: 20px;
     }
+  }
 
-    .gallery-item {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      transition: 0.25s ease;
-    }
+  /* ---------- Gallery ---------- */
 
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
 
-    .gallery-item img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      display: block;
+  @media (min-width: 600px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
+  }
 
-    .delete-btn {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background: rgba(255, 80, 120, 0.9);
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      transition: 0.2s ease;
-    }
+  .gallery-item img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
 
-    .delete-btn:hover {
-      background: rgba(255, 40, 90, 1);
-    }
+  /* ---------- File List ---------- */
 
-    .file-item {
-      background: var(--lavender);
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .file-item {
+    background: var(--lavender);
+    padding: 12px;
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-    .file-item a {
-      color: var(--blue-dark);
-      text-decoration: none;
-      font-weight: 600;
-      word-break: break-all;
-    }
-
-    .remove-file {
-      background: var(--pink);
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
-    @media (max-width: 600px) {
-      .tab-content {
-        padding: 20px;
-      }
-      h2 {
-        font-size: 1.05rem;
-      }
-    }
   </style>
 </head>
 
@@ -614,49 +479,96 @@ function openTab(evt, tabName) {
   evt.target.classList.add("active");
 }
 
-/* ---------- Google Sheets Backend (FINAL) ---------- */
+/* ---------- Google Sheets Backend via GET (بدون CORS) ---------- */
 async function saveToSheet(tab, field, value) {
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbwUTkcbP0fdXsnt5jkyle0MS-EMvh5FjGOw7Ir6dfkxaOM2suaVxRxwz0_CpZPeCSrHRQ/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tab, field, value })
-    });
+    const baseUrl = "https://script.google.com/macros/s/AKfycbwUTkcbP0fdXsnt5jkyle0MS-EMvh5FjGOw7Ir6dfkxaOM2suaVxRxwz0_CpZPeCSrHRQ/exec";
+    const url = `${baseUrl}?tab=${encodeURIComponent(tab)}&field=${encodeURIComponent(field)}&value=${encodeURIComponent(value)}`;
+
+    await fetch(url, { method: "GET" });
   } catch (e) {
     console.log("Save error:", e);
   }
 }
+/* ---------- Google Sheets Backend (FINAL) ---------- */
+
 
 /* ---------- Wishlist Gallery ---------- */
+/* ------------------ GitHub Upload Config ------------------ */
+
+const GITHUB_TOKEN = "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" ;  
+const GITHUB_REPO  = "ghazalehkeyvani/planner";
+const GITHUB_PATH  = "wishes"; // folder name
+
+/* ------------------ Upload File to GitHub ------------------ */
+
+async function uploadWishToGitHub(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = async function () {
+      const base64 = reader.result.split(",")[1];
+      const filePath = `${GITHUB_PATH}/${Date.now()}_${file.name}`;
+
+      const response = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${GITHUB_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "Add wish photo",
+          content: base64
+        })
+      });
+
+      const result = await response.json();
+
+      if (result?.content?.download_url) {
+        resolve(result.content.download_url);
+      } else {
+        reject("Upload failed");
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ------------------ Wishlist Gallery Logic ------------------ */
+
 const uploadInput = document.getElementById("wishUpload");
 const gallery = document.getElementById("gallery");
 
-if (uploadInput) {
-  uploadInput.addEventListener("change", function () {
-    const files = Array.from(this.files);
+uploadInput.addEventListener("change", async function () {
+  const files = Array.from(this.files);
 
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const item = document.createElement("div");
-        item.className = "gallery-item";
+  for (const file of files) {
+    try {
+      // Upload to GitHub
+      const url = await uploadWishToGitHub(file);
 
-        item.innerHTML = `
-          <img src="${e.target.result}" alt="wish photo">
-          <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
-        `;
+      // Add to UI
+      const item = document.createElement("div");
+      item.className = "gallery-item";
 
-        gallery.appendChild(item);
+      item.innerHTML = `
+        <img src="${url}" alt="wish photo">
+        <button class="delete-btn" onclick="this.parentElement.remove()">حذف</button>
+      `;
 
-        // ذخیره نام فایل در شیت (اختیاری)
-        saveToSheet("wishlist", "image", file.name);
-      };
-      reader.readAsDataURL(file);
-    });
+      gallery.appendChild(item);
 
-    this.value = "";
-  });
-}
+      // Save to Google Sheet (GET backend)
+      saveToSheet("wishlist", "image_url", url);
+
+    } catch (err) {
+      console.log("Upload error:", err);
+    }
+  }
+
+  this.value = "";
+});
 
 /* ---------- Files & Links ---------- */
 const fileUpload = document.getElementById("fileUpload");
